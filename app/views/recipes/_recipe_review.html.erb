@@ -1,0 +1,11 @@
+<div class="media-left">
+  <a href="<% user_path %>">
+    <img class="media-object img-circle avatar-sm" src="<%= review.review_image_url %>" alt="<%= review.reader.user.name %>">
+  </a>
+</div>
+<div class="media-body">
+  <h4 class="media-heading"><%= review.reader.user.name %></h4>
+  <p class="text-muted">Rating: <span class="text-info"><%= review.rating %></span></p>
+  <p><%= review.content %></p>
+</div>
+

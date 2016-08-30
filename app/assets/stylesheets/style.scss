@@ -1,0 +1,15 @@
+
+label.required:after {
+  content:" *";
+}
+
+.crop-featured-image {
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.avatar-sm {
+  width: 64px;
+  height: 64px;
+}

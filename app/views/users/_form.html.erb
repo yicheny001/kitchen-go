@@ -1,0 +1,21 @@
+<div class="panel-body">
+	<div class="media">
+  		<a class="media-left" href="#">
+			<%= image_tag @user.display_image, size: "200x200", class:"img-rounded" %>
+		</a>
+		<div class="media-body">
+			<dl class="dl-horizontal">
+				<% @user.hide_empty_fields.map do |k,v|%>
+ 					<dt><%=@user.display_attribute_key(k)%>:</dt><dd><%=v%></dd><p>
+ 				<%end%>
+
+				<% if @user.author %>
+					<dt>Check out my recipes!</dt>
+					<% @user.author.recipes.each do |recipe| %>
+					<dd><%= link_to recipe.norm_title, recipe_path(recipe)%></dd><br>
+					<%end%>
+				<% end %>
+			</dl>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+
+<div class="page-header clearfix">
+  <h3>Recipes
+    <small class="form-inline pull-right">
+      <%= form_tag recipes_path, :class => "form-group", :method => 'get' do %>
+        <%= text_field_tag :search, "", class: 'form-control', style: "width: 400px;" %>
+        <%= submit_tag 'Find A Recipe!', class: "btn btn-primary"%>
+      <%end%>
+    </small>
+  </h3>
+</div>
+<!-- INSERT TOGGLE TO SHOW ONLY ALLERGY FREE RECIPES-->
+
+<div class="row">
+  <%= render partial: "recipe", collection: @recipes, as: :recipe %>
+</div>
+
+<!-- #{recipe.author.user.name} -->

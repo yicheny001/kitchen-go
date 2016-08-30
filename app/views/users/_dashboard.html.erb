@@ -1,0 +1,51 @@
+<div class="panel-body">
+	<h4>My Account</h4>
+	<ul class="list-unstyled">
+	<li><%= link_to 'Edit Your Profile', edit_user_path(@user.id)%></li></ul><p>
+
+	<% if @user.posted_recipes? %>
+	<h4>My Recipes</h4>
+		<ul class="list-unstyled">
+		  <% @user.author.recipes.each do |recipe| %>
+		    <li><%= link_to recipe.norm_title, recipe_path(recipe)%></li>
+		  <%end%>
+		</ul>
+	<% end %>
+
+	<% if @user.has_bookmarks? %>
+	 	<h4>My Bookmarks:</h4>
+		 	<ul class="list-unstyled">
+		  	<% @user.reader.bookmarks.each do |bookmark| %>
+			  	<li><%= link_to bookmark.recipe.norm_title, recipe_path(bookmark.recipe)%></li>
+			    <p><%= bookmark.truncate_content %></p></li>
+		 	<% end %>
+		 	</ul>
+	<%end%>
+
+	<% if @user.wrote_reviews? %>
+	<h4>My Reviews</h4>
+	<div class="reviews">
+	 <% @user.reader.has_reviews(5).each do |review| %>
+	    <figure>
+	      <table>
+	        <tr>
+	          <td col width="100" height='100'valign="top">
+	            <%= image_tag review.recipe.image, :width => "80" ,:height => '80', class:"img-rounded"  %><br>
+	          </td>
+	          <td valign="top">
+	            <strong><%= review.recipe.title %></strong>
+	            <br/>
+	            <small>
+	              <strong>Rating:</strong> <%= review.rating %> out of 5
+	            	              <p><%= review.content %></p>
+	            </small>
+	          </td>
+	        </tr>
+	      </table>
+	    </figure>
+	  
+	<% end %>
+	</div>
+	<% end %>
+
+</div>

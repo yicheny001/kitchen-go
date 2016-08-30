@@ -1,0 +1,20 @@
+ <%= form_for @review do |f| %>
+    <%= f.hidden_field :recipe_id, :value => @recipe.id %>
+    <%= f.hidden_field :reader_id, :value => @user.reader.id %>
+    <div>
+        <%= f.label :rating %>
+    </div>
+    <div>
+      <%= f.select :rating, [1, 2, 3, 4, 5] %>
+    </div>
+    <div>
+      <%= f.label :content, "Review" %>
+    </div>
+    <div>
+      <%= f.text_area :content %>
+    </div>
+    <div>
+      <%= f.submit "Submit Review" %>
+    </div>
+<% end %>
+

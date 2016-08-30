@@ -1,0 +1,16 @@
+<div class="row">
+<% @ingredients_items.each do |name, item_array| %>
+  <div class="col-sm-6 col-md-6">
+    <div class="thumbnail">
+	<h4><center>Items related to <%=name%></center></h4><br>
+	<%item_array.each do |item| %><br>
+      <img src=<%= item.image %>><br>
+      <div class="panel-footer">
+        <p><%= item.name %></p>
+        <p>Price: $<%=item.price%></p>
+      </div>
+    <%end%>
+    </div>
+  </div>
+<%end%>
+</div>

@@ -1,0 +1,21 @@
+
+<div class="panel-body">
+    <div class="col-sm-5">
+        <div class="container-fluid"> 
+          <%= bootstrap_form_for(@user) do |f| %>
+            <%= f.text_field :name, required: true %>
+            <%= f.text_field :email, required: true %>
+            <%= f.password_field :password, required: true %>
+            <%= f.text_field :hometown %>
+            <%= f.label :fav_cuisine, 'Favorite Cuisine'%>
+            <%= f.text_field :fav_cuisine, hide_label: true %>
+            <%= f.text_field :allergies %>
+            <%= f.label :bio, 'About me' %>
+            <%= f.text_area :bio, hide_label: true %>
+            <%= f.label :image, 'Image URL' %>
+            <%= f.text_field :image, hide_label: true %>
+            <%= f.submit class: "btn btn-primary pull-right" %>
+          <% end %>
+        </div>
+    </div>
+</div>

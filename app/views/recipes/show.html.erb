@@ -1,0 +1,144 @@
+<div class="page-header">
+  <h1><%=@recipe.norm_title%></h1>
+</div>
+<div class="row">
+  <div class="col-md-8 col-xs-12">
+    <div class="crop-featured-image img-rounded" style="background-image: url('<%=@recipe.image%>'); height: 400px;"></div>
+    <div class="well well-sm">
+    <% if @recipe.recipe_rating %>
+      <span><strong>Recipe Rating:</strong> <%= @recipe.recipe_rating %> out of 5</span>
+    <% else %>
+        <span>This recipe doesn't have a rating yet! Be the first to review!</span>
+    <% end %>
+  </div>
+  <% if @recipe.categories %>
+    <div class="panel">
+      <div class="panel-body">
+      <strong>Categories</strong>
+      <% @recipe.categories.each do |ingredient|%>
+        <span class="label label-info"><%= ingredient.name %></span>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+    <strong><p>By <%= link_to @recipe.author.user.name, user_path(@recipe.author.user.id) %></p></strong>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong>Ingredients:</strong>
+      </div>
+      <ul class="list-group">
+        <% @recipe.ingredients.each_with_index do |ingredient|%>
+          <% if ingredient.name != "" %>
+            <li class="list-group-item"><%=ingredient.name%>
+              <% if logged_in? %>
+                <span class="pull-right"><%= form_for @line_item do |f|%>
+                  <%= f.hidden_field :shopping_list_id, :value => @user.shopping_list.id %>
+                  <%= f.hidden_field :ingredient_id, :value => ingredient.id%>
+                  <%= f.submit "add to shopping list", class: "btn btn-default btn-xs" %>
+                <%end%>
+                </span>
+              <%end%>
+            </li>          
+          <%end%>
+        <%end%>
+      </ul>
+    </div>
+    <% if logged_in? %>
+      <div class="panel clearfix">    
+        <button class="btn btn-default pull-right">
+          <%= link_to 'See my shopping list', shopping_list_path %>
+        </button>
+      </div>
+    <% end %>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong>Instructions:</strong>
+      </div>
+      <div class="panel-body">
+        <p><%=@recipe.content%></p>
+      </div>
+    </div>
+
+    <div class="panel">   
+      <% if logged_in? %>
+        <%= form_for @bookmark, :html => {class: "form-horizontal"} do |f| %>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Like it? Bookmark this!</label>
+            <div class="col-sm-9">
+              <%= f.hidden_field :recipe_id, :value => @recipe.id %>
+              <%= f.hidden_field :reader_id, :value => @user.reader.id %>
+              <% if !@user.reader.is_bookmarked?(@recipe) %>
+                <%= f.submit "Bookmark", class: "btn btn-info" %>
+              <% else %>
+                <%= f.submit "Bookmarked!", :disabled => "disabled", class: "btn btn-success"  %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <% if logged_in? %>
+      <% if @user.reader.is_reviewed?(@reviews) || @user.author && @user.author.my_recipe?(@recipe) %>
+        <div class="panel">
+          <div class="alert alert-warning clearfix">
+            <p class="pull-left">You've already left a review, or this is your own recipe, silly! </p>
+            <% if @user.reader.is_reviewed?(@reviews) %>
+              <button class="btn btn-default btn-xs pull-right"><%= link_to "Edit Your Review?", edit_review_url(@user.reader.my_review_id(@recipe)) %></button>
+            <% end %>
+          </div>  
+        </div>  
+      <% else %>
+        <div class="panel clearfix">
+          <h4>Got something to say??? Say it!</h4>
+          <%= form_for @review do |f| %>
+            <%= f.hidden_field :recipe_id, :value => @recipe.id %>
+            <%= f.hidden_field :reader_id, :value => @user.reader.id %>
+            <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object img-circle avatar-sm" src="<%= @user.reader.user.image %>" alt="<%= @user.reader.user.name %>">
+                </a>
+              </div>
+              <div class="media-body">
+                <div class="form-group">
+                  <%= f.label :rating %>
+                  <%= f.select :rating, [1, 2, 3, 4, 5] %>
+                </div>
+                <%= f.label :content, "Review" %>
+                <%= f.text_area :content, class: "form-control" %>
+              </div>
+            </div>
+            <%= f.submit "Submit Review", class: "btn btn-primary pull-right" %>
+          </div>  
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if @reviews.any? %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Reviews
+        </div>
+        <ul class="media-list list-group">
+          <% @reviews.each do |review| %>
+            <li class="media list-group-item">
+              <%= render partial: "recipe_review", locals: { review: review } %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
+  </div>
+  <div class="col-md-4 col-xs-12"> 
+    <div class="panel">
+      <% if @bookmarks %>
+        Show me who bookmarked this!
+        <% @recipe.bookmarks.each do |bookmark| %>
+          <%= bookmark.reader.user.name %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

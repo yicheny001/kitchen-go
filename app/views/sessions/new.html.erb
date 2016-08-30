@@ -1,0 +1,28 @@
+Please sign in!
+
+<%=flash[:message].html_safe unless flash[:message].blank? %>
+
+<%= form_tag "/sessions" do %><br>
+
+<p>
+  <div class="col-sm-5">
+
+<%= bootstrap_form_tag url: '/sessions' do |f| %>
+  <%= f.text_field :name %>
+  <%= f.password_field :password %>
+  <%= f.submit 'Sign In'  %>
+<% end %>
+</div>
+<% end %>
+
+
+<!-- Need a form with Username and Password
+	1. user does not exist
+		take params, look for user, cannot find
+		[flash_message] cannot find user with that name, "try again"
+
+	2. enter wrong password
+		take params, find user, check user.password_digest against password_digest of submitted password, if they don't match
+		[flash_message] password does not match "try again" 
+		
+		^session[:user_id] = @user.id -->

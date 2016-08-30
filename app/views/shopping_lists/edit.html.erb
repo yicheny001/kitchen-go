@@ -1,0 +1,27 @@
+<h3>My Shopping List</h3>
+<div class="panel panel-default col-sm-6">
+<div class="panel-body">
+<h4>Add, Remove Items, or <%= link_to 'Clear Your List', shopping_list_delete_all_path%></h4>
+
+<%= bootstrap_form_for(@shopping_list_uniq) do |f|%>
+<%=f.fields_for :ingredients do |item|%>
+<%= item.label :id, item.object.name.capitalize %>
+<%= item.hidden_field :name, :value => item.object.name%>
+<%= item.number_field :price,hide_label: true,:value => @shopping_list.item_count(item.object), in: 0..8 %>
+<%end%><!-- 
+</div>
+</div>
+
+
+<div class="panel panel-default col-lg-6">
+  <div class="panel-body"> -->
+  <h4>Add Some More Items </h4>
+  <%= f.collection_check_boxes :line_items, Ingredient.show_without_items(@shopping_list.show_ingredient_ids), :id, :name do |b| b.label { b.check_box + b.text} end%>
+  <%= f.submit 'Update My Shopping List'%>
+<% end %>
+</div>
+</div>
+
+
+
+

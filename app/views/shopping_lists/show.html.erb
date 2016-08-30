@@ -1,0 +1,22 @@
+<h3>My Shopping List</h3>
+
+<p><%= link_to 'Edit Your List', edit_shopping_list_path(@shopping_list.id)%><p>
+<div class="col-xs-6 col-sm-3">
+<ul class="list-group">
+	<%@shopping_list.count_same_ingredients.each do |ingredient, count|%>
+  		<li class="list-group-item">
+    				<%= "#{count}" %>  -  				
+   				<%= "#{ingredient.capitalize}" %>
+ 
+  		</li>
+	<%end%>
+</ul>
+</div>
+
+
+<%= form_tag '/stores', method: 'post' do %>
+	<%=text_field_tag :zip %> 
+	<%=submit_tag 'find store' %>
+<%end%>
+
+
